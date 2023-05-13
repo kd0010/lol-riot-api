@@ -1,0 +1,13 @@
+{
+  "name": "lol-riot-api",
+  "version": "0.1.0",
+  "description": "",
+  "license": "MIT",
+  "scripts": {
+    "clean-build": "rmdir /s /q dist && tsc"
+  },
+  "dependencies": {
+    "lol-constants": "^2.1.0",
+    "node-fetch": "^2.6.7"
+  }
+}
