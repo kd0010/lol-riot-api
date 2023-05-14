@@ -7,7 +7,7 @@
     "clean-build": "rmdir /s /q dist && tsc"
   },
   "dependencies": {
-    "lol-constants": "^2.1.0",
+    "lol-constants": "^2.3.0",
     "node-fetch": "^2.6.7"
   }
 }
