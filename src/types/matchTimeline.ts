@@ -1,7 +1,6 @@
 import {
   ItemKeyNum,
   Level,
-  ParticipantId,
   TeamId,
   WardType,
   SkillSlot,
@@ -16,7 +15,7 @@ import {
 export interface TimelineFrame {
   events: TimelineEvent[]
   participantFrames: {
-    [id in ParticipantId]: ParticipantFrame
+    [participantId: string]: ParticipantFrame
   }
   timestamp: number
 }

@@ -1,8 +1,11 @@
-import fetch from 'node-fetch'
 import { getApiKey } from './helpers/getApiKey'
 import { Region, PlatformIds } from 'lol-constants'
+import { MatchResponse, TimelineResponse } from './types/interfaces'
+import { Match } from './Match'
+import { fetch } from 'rift-api-utils'
+import { MatchTimeline } from './MatchTimeline'
 
-class _RiotAPI {
+class _RiotApi {
   region: Region | null = null
   #wait429: boolean = false
   #apiKey: string | null = null
@@ -42,8 +45,16 @@ class _RiotAPI {
     gameId: number,
   ) {
     const regionalGameId = this.#getRegionalGameId(gameId)
-    const match = await this.#fetch(this.#getUrl(this.#matchesUri, regionalGameId))
-    return match
+    const match: MatchResponse = await this.#fetch(this.#getUrl(this.#matchesUri, regionalGameId))
+    return new Match(match)
+  }
+
+  async getMatchTimeline(
+    gameId: number,
+  ) {
+    const regionalGameId = this.#getRegionalGameId(gameId)
+    const timeline: TimelineResponse = await this.#fetch(this.#getUrl(this.#matchesUri, regionalGameId, 'timeline'))
+    return new MatchTimeline(timeline)
   }
 
   setRegion(
@@ -130,9 +141,10 @@ class _RiotAPI {
     const res = await fetch(
       url,
       {
-        headers: [
-          ['X-Riot-Token', apiKey],
-        ],
+        headers: {
+          'X-Riot-Token': apiKey,
+        },
+        useNodeFetch: true,
       },
     )
 
@@ -142,7 +154,7 @@ class _RiotAPI {
         const requestCount = Number(res.headers.get('X-App-Rate-Limit-Count')?.split(',')[1]?.split(':')[0])
         console.log(requestCount) // TEMP
         if (requestCount == 100) await this.#wait('rate-limit')
-        return await res.json()
+        return res.data
       case 429:
         console.error('!', 429)
         await this.#wait('rate-limit')
@@ -163,4 +175,4 @@ class _RiotAPI {
   }
 }
 
-export const RiotAPI = new _RiotAPI()
+export const RiotApi = new _RiotApi()

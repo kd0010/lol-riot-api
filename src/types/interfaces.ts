@@ -4,7 +4,7 @@ import { TimelineFrame, TimelineParticipant } from './matchTimeline'
 
 export interface MatchResponse {
   metadata: MatchMetadata
-  info: Match
+  info: IMatch
 }
 
 export interface MatchMetadata {
@@ -13,7 +13,7 @@ export interface MatchMetadata {
   participants: string[]
 }
 
-export interface Match {
+export interface IMatch {
   /** Millisecond-timestamp. */
   gameCreation: number
   /** Seconds. */
@@ -38,15 +38,15 @@ export interface Match {
   tournamentCode: string
 }
 
-export interface MatchTimelineResponse {
+export interface TimelineResponse {
   metadata: MatchMetadata
-  info: MatchTimeline
+  info: IMatchTimeline
 }
 
-export interface MatchTimeline {
+export interface IMatchTimeline {
   /** Milliseconds. */
   frameInterval: number
-  frames: TimelineFrame
+  frames: TimelineFrame[]
   gameId: number
   participants: TimelineParticipant[]
 }
