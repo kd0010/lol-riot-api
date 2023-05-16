@@ -155,6 +155,8 @@ class _RiotApi {
         console.log(requestCount) // TEMP
         if (requestCount == 100) await this.#wait('rate-limit')
         return res.data
+      case 403:
+        throw 'api key issue'
       case 429:
         console.error('!', 429)
         await this.#wait('rate-limit')
